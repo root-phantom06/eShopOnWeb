@@ -28,9 +28,9 @@ jobs:
     - name: Check .NET version
       run: dotnet --info
     - name: Build with dotnet
-      run: dotnet build ./eShopOnWeb.sln --configuration Release --framework net8.0
+      run: dotnet build ./eShopOnWeb.sln --configuration Release
     - name: Test with dotnet
-      run: dotnet test ./eShopOnWeb.sln --configuration Release --framework net8.0
+      run: dotnet test ./eShopOnWeb.sln --configuration Release
     - name: dotnet publish
       run: |
         dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
