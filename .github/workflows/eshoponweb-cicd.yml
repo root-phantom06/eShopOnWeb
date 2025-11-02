@@ -26,7 +26,11 @@ jobs:
         dotnet-version: '8.0.x'
     #Build/Test/Publish the .net project
     - name: Check .NET version
-      run: dotnet --info
+      run: |
+        pwd
+        ls -la
+        dotnet --version
+        dotnet --info
     - name: Build with dotnet
       run: dotnet build ./eShopOnWeb.sln --configuration Release
     - name: Test with dotnet
