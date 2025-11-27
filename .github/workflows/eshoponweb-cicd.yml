@@ -94,9 +94,8 @@ jobs:
 
       # Publish website to Azure App Service using CLI (WebApp)
       - name: Publish Website to WebApp
-        run: az webapp deploy \
+        run: az webapp deployment source config-zip \
           --name ${{ env.WEBAPP-NAME }} \
           --resource-group ${{ env.RESOURCE-GROUP }} \
-          --src-path ~/publish/app.zip \
-          --type zip
+          --src ~/publish/app.zip
         
