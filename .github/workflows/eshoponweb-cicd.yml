@@ -1,29 +1,26 @@
 name: eShopOnWeb Build and Test
 
 #Triggers (uncomment line below to use it)
-#on: [push, workflow_dispatch]
+on: [push, workflow_dispatch]
 
 #Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
 env:
-  RESOURCE-GROUP: rg-eshoponweb-NAME
-  LOCATION: westeurope
+  DOTNET_ROOT: /usr/share/dotnet
+  RESOURCE-GROUP: rg-eshoponweb-phantom
+  LOCATION: eastus
   TEMPLATE-FILE: infra/webapp.bicep
-  SUBSCRIPTION-ID: YOUR-SUBS-ID
-  WEBAPP-NAME: eshoponweb-webapp-NAME
+  SUBSCRIPTION-ID: 762c3eb0-1001-4aa6-84eb-61560b197532
+  WEBAPP-NAME: eshoponweb-webapp-phantom
 
 jobs:
   #Build, test and publish .net web project in repository
   buildandtest:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       #checkout the repository
       - uses: actions/checkout@v5
       #prepare runner for desired .net version SDK
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: "8.0.x"
-          dotnet-quality: "preview"
+
       #Build/Test/Publish the .net project
       - name: Build with dotnet
         run: dotnet build ./eShopOnWeb.sln --configuration Release
@@ -50,7 +47,7 @@ jobs:
 
   # Use Bicep to deploy infrastructure + Publish webapp
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: buildandtest
     environment:
       name: "Development"
