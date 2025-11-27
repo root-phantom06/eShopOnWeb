@@ -5,7 +5,7 @@ on: [push, workflow_dispatch]
 
 #Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
 env:
-  DOTNET_ROOT: /usr/share/dotnet
+  DOTNET_APP_DIR: ~/publish
   RESOURCE-GROUP: rg-eshoponweb-phantom
   LOCATION: eastus
   TEMPLATE-FILE: infra/webapp.bicep
@@ -28,15 +28,15 @@ jobs:
         run: dotnet test ./eShopOnWeb.sln --configuration Release
       - name: dotnet publish
         run: |
-          dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
-          cd ${{env.DOTNET_ROOT}}/myapp
+          dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_APP_DIR}}/myapp
+          cd ${{env.DOTNET_APP_DIR}}/myapp
           zip -r ../app.zip .
       # upload the published website code artifacts
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v5
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/app.zip
+          path: ${{env.DOTNET_APP_DIR}}/app.zip
 
       # upload the bicep template as artifacts for next job
       - name: Upload artifact for deployment job
