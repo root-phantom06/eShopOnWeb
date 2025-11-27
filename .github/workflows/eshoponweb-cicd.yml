@@ -10,7 +10,7 @@ env:
   LOCATION: eastus
   TEMPLATE-FILE: infra/webapp.bicep
   SUBSCRIPTION-ID: 762c3eb0-1001-4aa6-84eb-61560b197532
-  WEBAPP-NAME: eshoponweb-webapp-phantom-07-app
+  WEBAPP-NAME: eshoponweb-webapp-phantom-06-app
 
 jobs:
   #Build, test and publish .net web project in repository
@@ -94,8 +94,9 @@ jobs:
 
       # Publish website to Azure App Service using CLI (WebApp)
       - name: Publish Website to WebApp
-        uses: Azure/cli@v2
-        with:
-          use-local-cli: true
-          inlineScript: |
-            az webapp deploy --name ${{ env.WEBAPP-NAME }} --resource-group ${{ env.RESOURCE-GROUP }} --src-path .net-app/app.zip --type zip
+        run: az webapp deploy \
+          --name ${{ env.WEBAPP_NAME }} \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --src-path ~/publish/app.zip \
+          --type zip
+        
